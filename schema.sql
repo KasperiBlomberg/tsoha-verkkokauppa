@@ -17,12 +17,6 @@ CREATE TABLE genres (
     name TEXT UNIQUE
 );
 
-CREATE TABLE images (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER REFERENCES products(id),
-    data BYTEA
-);
-
 CREATE TABLE descriptions (
     id SERIAL PRIMARY KEY,
     product_id INTEGER REFERENCES products(id),

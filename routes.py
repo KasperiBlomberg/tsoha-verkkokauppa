@@ -43,4 +43,4 @@ def register():
 @app.route("/product/<int:id>")
 def product(id):
     res = products.product(id)
-    return render_template("product.html", name = res[0], price = res[1])
+    return render_template("product.html", id=id, name = res[0], price = res[1])
