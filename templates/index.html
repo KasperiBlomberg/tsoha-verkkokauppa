@@ -6,3 +6,12 @@
 <p>
 <a href="/register">Luo tunnus</a>
 {% endif %}
+{% if session.user_role == 1 %}
+<p>Olet admin</p>
+{% endif %}
+<hr>
+{% for product in products %}
+<p>{{ product.name }} {{ product.price }}€</p>
+<a href="/product/{{ product.id }}">Näytä</a>
+<hr>
+{% endfor %}

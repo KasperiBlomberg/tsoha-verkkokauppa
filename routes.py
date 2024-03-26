@@ -1,10 +1,12 @@
 from app import app
 from flask import redirect, render_template, request
 import users
+import products
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    p = products.products()
+    return render_template("index.html", products = p)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -37,3 +39,8 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
+        
+@app.route("/product/<int:id>")
+def product(id):
+    res = products.product(id)
+    return render_template("product.html", name = res[0], price = res[1])
