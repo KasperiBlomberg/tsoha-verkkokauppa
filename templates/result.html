@@ -1,0 +1,10 @@
+<h1>Haun tulokset</h1>
+<hr>
+{% for result in results %}
+<a href="/product/{{ result.id }}">{{ result.name }}</a>
+<a href="/product/{{ result.id }}">
+    <img src="/static/images/{{ result.id }}.jpg">
+</a>
+<p>{{ result.price }}€</p>
+<hr>
+{% endfor %}

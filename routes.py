@@ -44,3 +44,8 @@ def register():
 def product(id):
     res = products.product(id)
     return render_template("product.html", id=id, name = res[0], price = res[1])
+
+@app.route("/result", methods=["GET"])
+def result():
+    results = products.result()
+    return render_template("result.html", results = results)
