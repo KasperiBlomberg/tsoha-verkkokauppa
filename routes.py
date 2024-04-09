@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, request
+from flask import redirect, render_template, request, make_response
 import users
 import products
 
@@ -49,3 +49,14 @@ def product(id):
 def result():
     results = products.result()
     return render_template("result.html", results = results)
+
+@app.route("/new", methods=["GET", "POST"])
+def new():
+    if request.method == "GET":
+        return render_template("new.html")
+    if request.method == "POST":
+        name = request.form["name"]
+        price = request.form["price"]
+        file = request.files["file"]
+        products.new(name, price, file)
+        return redirect("/")

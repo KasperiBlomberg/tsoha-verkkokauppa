@@ -1,6 +1,7 @@
 from db import db
 from flask import request
 from sqlalchemy.sql import text
+import os
 
 def products():
     sql = text("SELECT * FROM products")
@@ -20,3 +21,10 @@ def result():
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     results = result.fetchall()
     return results
+
+def new(name, price, file):
+    sql = text("INSERT INTO products (name, price) VALUES (:name, :price)")
+    db.session.execute(sql, {"name":name, "price":price})
+    db.session.commit()
+    filename = str(db.session.execute(text("SELECT MAX(id) FROM products")).fetchone()[0]) + ".jpg"
+    file.save(os.path.join("static/images", filename))

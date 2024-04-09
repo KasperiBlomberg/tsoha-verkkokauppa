@@ -8,6 +8,7 @@ CREATE TABLE users (
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE,
+    description TEXT,
     genre INTEGER REFERENCES genres(id),
     price TEXT
 );

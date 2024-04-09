@@ -1,6 +1,8 @@
 {% if session.username %}
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
+<p>
+<a href="/new">Lisää tuote</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 <p>
