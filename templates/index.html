@@ -1,15 +1,13 @@
 {% if session.username %}
 <p>Olet kirjautunut nimellä {{ session.username }}</p>
 <a href="/logout">Kirjaudu ulos</a>
-<p>
-<a href="/new">Lisää tuote</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 <p>
 <a href="/register">Luo tunnus</a>
 {% endif %}
 {% if session.user_role == 1 %}
-<p>Olet admin</p>
+<p><a href="/new">Lisää tuote</a></p>
 {% endif %}
 <form action="/result" method="GET">
 Hakusana: <input type="text" name="query">
