@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Haku{% endblock %}
+{% block content %}
 <h1>Haun tulokset</h1>
 <hr>
 {% for result in results %}
@@ -8,3 +11,4 @@
 <p>{{ result.price }}€</p>
 <hr>
 {% endfor %}
+{% endblock %}

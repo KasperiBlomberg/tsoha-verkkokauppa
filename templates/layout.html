@@ -1,0 +1,36 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<title>KotiKulma - {% block title %}{% endblock %}</title>
+<div class="container">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+        <a class="navbar-brand" href="/">KotiKulma</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            {% if session.username %}
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/cart">Ostoskori</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Kirjaudu sisään</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Luo tunnus</a>
+            </li>
+            {% endif %}
+            {% if session.user_role == 1 %}
+            <li class="nav-item">
+                <a class="nav-link" href="/new">Lisää tuote</a>
+            </li>
+            {% endif %}
+            </ul>
+            <form class="form-inline" action="/result" method="GET">
+                <input class="form-control mr-sm-2" type="text" name="query" placeholder="Hakusana">
+                <button class="btn btn-light" type="submit">Hae</button>
+            </form>
+    </nav>
+    {% block content %}{% endblock %}
+</div>

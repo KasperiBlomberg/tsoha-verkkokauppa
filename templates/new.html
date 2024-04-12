@@ -1,3 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Lisää tuote{% endblock %}
+{% block content %}
 <form action="/new" method="POST" enctype="multipart/form-data">
     Nimi: <input type="text" name="name">
     hinta: <input type="text" name="price">
@@ -5,3 +8,4 @@
     <p>
     <input type="submit" value="Lähetä">
     </form>
+{% endblock %}
