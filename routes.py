@@ -66,7 +66,7 @@ def new():
 def cart():
     if request.method == "GET":
         cart = carts.get_cart()
-        total = sum([int(i[2])*i[3] for i in cart])
+        total = sum([float(i[2])*i[3] for i in cart])
         return render_template("cart.html", cart = cart, total = total)
     if request.method == "POST":
         product_id = request.form["product_id"]
