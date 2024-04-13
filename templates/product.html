@@ -5,4 +5,10 @@
 <hr>
 <img src="/static/images/{{id}}.jpg">
 <p>{{price}}€</p>
+<p>
+    <form action="/cart" method="POST">
+        <input type="hidden" name="product_id" value="{{id}}">
+        <input type="number" name="amount" value="1" min="1">
+        <button type="submit" class="btn btn-primary">Lisää ostoskoriin</button>
+    </form>
 {% endblock %}

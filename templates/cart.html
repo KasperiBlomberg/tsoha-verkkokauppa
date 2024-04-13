@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Ostoskori{% endblock %}
+{% block content %}
+<h1>Ostoskori</h1>
+<hr>
+{% if cart %}
+{% for product in cart %}
+<p><a href="/product/{{ product.id }}">{{ product.name }}</a> x {{ product.quantity }}</p>
+<p>{{ product.price }}€ x {{ product.quantity }} = {{ product.price * product.quantity }}€</p>
+<hr>
+{% endfor %}
+<p>Yhteensä: {{ total }}€</p>
+<form action="/order" method="POST">
+<button type="submit" class="btn btn-primary">Tilaa</button>
+</form>
+{% else %}
+<p>Ostoskorisi on tyhjä</p>
+{% endif %}
+{% endblock %}

@@ -5,12 +5,12 @@ Sovellusta voi testata osoitteessa https://tsoha-verkkokauppa.fly.dev/. Tällä 
 Toimivat ominaisuudet:
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda tunnuksen.
 - Käyttäjä voi hakea tuotteita hakusanoilla.
+- Käyttäjillä on ostoskorit.
+- Ylläpitäjä voi lisätä tuotteita.
 
 
 Lisättävät ominaisuudet:
-- Jokaisella käyttäjällä on oma ostoskori.
 - Käyttäjä voi järjestää tuotteita eri parametrein ja hakea tuotteita eri genreistä.
 - Käyttäjä voi lisätä tuotteisiin arvosteluja ja lukea toisten antamia arvosteluja.
-- Ylläpitäjä voi lisätä ja poistaa tuotteita.
 - Ylläpitäjä voi laittaa tuotteita alennukseen.
 - Ulkoasu.

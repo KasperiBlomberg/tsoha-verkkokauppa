@@ -2,6 +2,7 @@ from app import app
 from flask import redirect, render_template, request, make_response
 import users
 import products
+import carts
 
 @app.route("/")
 def index():
@@ -60,3 +61,15 @@ def new():
         file = request.files["file"]
         products.new(name, price, file)
         return redirect("/")
+    
+@app.route("/cart", methods=["GET", "POST"])
+def cart():
+    if request.method == "GET":
+        cart = carts.get_cart()
+        total = sum([int(i[2])*i[3] for i in cart])
+        return render_template("cart.html", cart = cart, total = total)
+    if request.method == "POST":
+        product_id = request.form["product_id"]
+        amount = request.form["amount"]
+        carts.add_to_cart(product_id, amount)
+        return redirect("/cart")

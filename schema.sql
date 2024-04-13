@@ -23,3 +23,15 @@ CREATE TABLE descriptions (
     product_id INTEGER REFERENCES products(id),
     data TEXT
 );
+
+CREATE TABLE carts (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id)
+);
+
+CREATE TABLE cart_items (
+    id SERIAL PRIMARY KEY,
+    cart_id INTEGER REFERENCES carts(id),
+    product_id INTEGER REFERENCES products(id),
+    quantity INTEGER
+);
