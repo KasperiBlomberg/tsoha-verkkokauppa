@@ -1,11 +1,23 @@
 {% extends "layout.html" %}
 {% block title %}Lisää tuote{% endblock %}
 {% block content %}
-<form action="/new" method="POST" enctype="multipart/form-data">
-    Nimi: <input type="text" name="name">
-    hinta: <input type="text" name="price">
-    Kuva: <input type="file" name="file">
-    <p>
-    <input type="submit" value="Lähetä">
-    </form>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <h2>Lisää tuote</h2>
+            <form action="/new" method="POST" enctype="multipart/form-data" class="form-group">
+                <label for="name">Nimi:</label>
+                <input type="text" id="name" name="name" class="form-control">
+                <br>
+                <label for="price">Hinta:</label>
+                <input type="text" id="price" name="price" class="form-control">
+                <br>
+                <label for="file">Kuva:</label>
+                <input type="file" id="file" name="file" class="form-control-file">
+                <br>
+                <input type="submit" value="Lähetä" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -4,11 +4,11 @@
 <h1>Haun tulokset</h1>
 <hr>
 {% for result in results %}
-<a href="/product/{{ result.id }}">{{ result.name }}</a>
-<a href="/product/{{ result.id }}">
-    <img src="/static/images/{{ result.id }}.jpg">
-</a>
-<p>{{ result.price }}€</p>
+<a href="/product/{{ result.id }}" class="product-name">{{ result.name }}</a>
+<div>
+    <a href="/product/{{ result.id }}"><img class="img-fluid my-image" src="/static/images/{{ result.id }}.jpg"></a>
+</div>
+<p class="product-price">{{ result.price }}€</p>
 <hr>
 {% endfor %}
 {% endblock %}
