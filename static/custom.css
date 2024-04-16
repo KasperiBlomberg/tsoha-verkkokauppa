@@ -27,3 +27,7 @@ a:hover {
 .product-price {
     font-size: 18px;
 }
+
+.error {
+    color: red;
+}

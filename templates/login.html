@@ -7,14 +7,17 @@
             <h2>Kirjaudu sisään</h2>
             <form action="/login" method="post" class="form-group">
                 <label for="username">Tunnus:</label>
-                <input type="text" id="username" name="username" class="form-control">
+                <input type="text" id="username" name="username" value="{{ username }}" class="form-control">
                 <br>
                 <label for="password">Salasana:</label>
                 <input type="password" id="password" name="password" class="form-control">
                 <br>
-                <input type="submit" value="Kirjaudu" class="btn btn-primary">
+                <input type="submit" value="Kirjaudu" class="btn btn-success">
             </form>
             <p>Tai luo uusi <a href="/register">tunnus</a></p>
+            {% if error %}
+            <p class="error">Väärä käyttäjänimi tai salasana. Yritä uudestaan.</p>
+            {% endif %}
         </div>
     </div>
 </div>

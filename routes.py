@@ -12,14 +12,14 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("login.html", error=None, username="")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            return render_template("login.html", error=True, username=username)
         
 @app.route("/logout")
 def logout():
@@ -29,17 +29,19 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", error=None, username="")
     if request.method == "POST":
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        if len(password1) < 3:
+            return render_template("register.html", error="Salasanan tulee olla vähintään 3 merkkiä pitkä.", username=username)
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eivät täsmää")
+            return render_template("register.html", error="Salasanat eivät täsmää.", username=username)
         if users.register(username, password1):
             return redirect("/")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            return render_template("register.html", error="Rekisteröinti epäonnistui.", username=username)
         
 @app.route("/product/<int:id>")
 def product(id):
