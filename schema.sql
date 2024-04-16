@@ -10,7 +10,7 @@ CREATE TABLE products (
     name TEXT UNIQUE,
     description TEXT,
     genre INTEGER REFERENCES genres(id),
-    price TEXT
+    price NUMERIC,
 );
 
 CREATE TABLE genres (

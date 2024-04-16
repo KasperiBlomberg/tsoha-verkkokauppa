@@ -7,11 +7,22 @@
 {% for product in cart %}
 <p><a href="/product/{{ product.id }}">{{ product.name }}</a> x {{ product.quantity }}</p>
 <p>{{ product.price }}€ x {{ product.quantity }} = {{ product.price * product.quantity }}€</p>
+<form action="/cart" method="POST">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <input type="hidden" name="amount" value="0">
+    <button type="submit" class="btn btn-danger">Poista</button>
+</form>
 <hr>
 {% endfor %}
 <p>Yhteensä: {{ total }}€</p>
+<form action="/cart" method="POST">
+    <input type="hidden" name="product_id" value="-1">
+    <input type="hidden" name="amount" value="-1">
+    <button type="submit" class="btn btn-danger">Tyhjennä ostoskori</button>
+</form>
+<div class="mt-3"></div>
 <form action="/order" method="POST">
-<button type="submit" class="btn btn-primary">Tilaa</button>
+    <button type="submit" class="btn btn-success">Tilaa</button>
 </form>
 {% else %}
 <p>Ostoskorisi on tyhjä</p>
