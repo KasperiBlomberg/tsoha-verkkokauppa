@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, abort
 import users
 import products
 import carts
@@ -67,6 +67,8 @@ def new():
             return redirect("/")
         return render_template("new.html")
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         name = request.form["name"]
         price = request.form["price"]
         description = request.form["description"]
@@ -88,6 +90,8 @@ def cart():
     
 @app.route("/review", methods=["POST"])
 def review():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     product_id = request.form["product_id"]
     rating = request.form["rating"]
     content = request.form["content"]

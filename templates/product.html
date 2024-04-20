@@ -36,6 +36,7 @@
 {% if session.username %}
 <h3>Lisää arvostelu</h3>
 <form action="/review" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <input type="hidden" name="product_id" value="{{id}}">
     <label for="content">Arvostelu (3 - 200 merkkiä):</label>
     <textarea name="content" class="form-control" rows="3"></textarea>

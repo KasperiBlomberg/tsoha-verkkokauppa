@@ -6,6 +6,7 @@
         <div class="col-md-6">
             <h2>Lisää tuote</h2>
             <form action="/new" method="POST" enctype="multipart/form-data" class="form-group">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
                 <label for="name">Nimi:</label>
                 <input type="text" id="name" name="name" class="form-control">
                 <br>
