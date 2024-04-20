@@ -1,19 +1,13 @@
 {% extends "layout.html" %}
 {% block title %}{{name}}{% endblock %}
 {% block content %}
-<style>
-    .my-image {
-        width: 600px;
-        height: 600px;
-        object-fit: contain;
-    }
-</style>
-<h1>{{name}}</h1>
+<h1>{{ product.name }}</h1>
 <hr>
 <div>
-    <img class="img-fluid my-image" src="/static/images/{{id}}.jpg">
+    <img class="img-fluid my-image-product" src="/static/images/{{id}}.jpg">
 </div>
-<p class="product-price"> {{price}}€</p>
+<p class="product-price"> {{ product.price }}€</p>
+<p>{{ product.description }}</p>
 <p>
     <form action="/cart" method="POST">
         <input type="hidden" name="product_id" value="{{id}}">

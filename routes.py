@@ -6,8 +6,8 @@ import carts
 
 @app.route("/")
 def index():
-    p = products.products()
-    return render_template("index.html", products = p)
+    result = products.products()
+    return render_template("index.html", products = result)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -51,7 +51,7 @@ def product(id):
         average_rating = round(sum(review[1] for review in reviews) / len(reviews), 1)
     else:
         average_rating = None
-    return render_template("product.html", id=id, name = product[0], price = product[1], reviews = reviews, average_rating = average_rating)
+    return render_template("product.html", id=id, product=product, reviews = reviews, average_rating = average_rating)
 
 @app.route("/result", methods=["GET"])
 def result():
@@ -65,8 +65,9 @@ def new():
     if request.method == "POST":
         name = request.form["name"]
         price = request.form["price"]
+        description = request.form["description"]
         file = request.files["file"]
-        products.new(name, price, file)
+        products.new(name, price, description, file)
         return redirect("/")
     
 @app.route("/cart", methods=["GET", "POST"])
