@@ -1,5 +1,5 @@
 from app import app
-from flask import redirect, render_template, request, make_response
+from flask import redirect, render_template, request, session
 import users
 import products
 import carts
@@ -34,8 +34,10 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        if len(password1) < 3:
-            return render_template("register.html", error="Salasanan tulee olla vähintään 3 merkkiä pitkä.", username=username)
+        if len(username) < 3 or len(username) > 20:
+            return render_template("register.html", error="Käyttäjätunnuksen tulee olla 3 - 20 merkkiä pitkä.", username=username)
+        if len(password1) < 3 or len(password1) > 20:
+            return render_template("register.html", error="Salasanan tulee olla 3 - 20 merkkiä pitkä.", username=username)
         if password1 != password2:
             return render_template("register.html", error="Salasanat eivät täsmää.", username=username)
         if users.register(username, password1):
@@ -61,6 +63,8 @@ def result():
 @app.route("/new", methods=["GET", "POST"])
 def new():
     if request.method == "GET":
+        if session.get("user_role", 0) != 1:
+            return redirect("/")
         return render_template("new.html")
     if request.method == "POST":
         name = request.form["name"]
@@ -87,6 +91,8 @@ def review():
     product_id = request.form["product_id"]
     rating = request.form["rating"]
     content = request.form["content"]
+    if len(content) < 3 or len(content) > 200:
+        return redirect("/product/"+product_id)
     username = users.username()
     products.review(product_id, username, rating, content)
     return redirect("/product/"+product_id)
