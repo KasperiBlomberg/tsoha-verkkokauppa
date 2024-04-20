@@ -28,3 +28,14 @@ def new(name, price, file):
     db.session.commit()
     filename = str(db.session.execute(text("SELECT MAX(id) FROM products")).fetchone()[0]) + ".jpg"
     file.save(os.path.join("static/images", filename))
+
+def review(product_id, username, rating, content):
+    sql = text("INSERT INTO reviews (product_id, username, rating, content, created_at) VALUES (:product_id, :username, :rating, :content, NOW())")
+    db.session.execute(sql, {"product_id":product_id, "username":username, "rating":rating, "content":content})
+    db.session.commit()
+
+def get_reviews(product_id):
+    sql = text("SELECT username, rating, content, TO_CHAR(created_at, 'DD-MM-YYYY HH24:MI') as created_at FROM reviews WHERE product_id=:product_id ORDER BY created_at DESC")
+    result = db.session.execute(sql, {"product_id":product_id})
+    reviews = result.fetchall()
+    return reviews

@@ -45,8 +45,13 @@ def register():
         
 @app.route("/product/<int:id>")
 def product(id):
-    res = products.product(id)
-    return render_template("product.html", id=id, name = res[0], price = res[1])
+    product = products.product(id)
+    reviews = products.get_reviews(id)
+    if reviews:
+        average_rating = round(sum(review[1] for review in reviews) / len(reviews), 1)
+    else:
+        average_rating = None
+    return render_template("product.html", id=id, name = product[0], price = product[1], reviews = reviews, average_rating = average_rating)
 
 @app.route("/result", methods=["GET"])
 def result():
@@ -75,3 +80,12 @@ def cart():
         amount = request.form["amount"]
         carts.add_to_cart(product_id, amount)
         return redirect("/cart")
+    
+@app.route("/review", methods=["POST"])
+def review():
+    product_id = request.form["product_id"]
+    rating = request.form["rating"]
+    content = request.form["content"]
+    username = users.username()
+    products.review(product_id, username, rating, content)
+    return redirect("/product/"+product_id)

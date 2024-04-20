@@ -9,19 +9,12 @@ CREATE TABLE products (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE,
     description TEXT,
-    genre INTEGER REFERENCES genres(id),
-    price NUMERIC,
+    price NUMERIC
 );
 
 CREATE TABLE genres (
     id SERIAL PRIMARY KEY,
     name TEXT UNIQUE
-);
-
-CREATE TABLE descriptions (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER REFERENCES products(id),
-    data TEXT
 );
 
 CREATE TABLE carts (
@@ -34,4 +27,13 @@ CREATE TABLE cart_items (
     cart_id INTEGER REFERENCES carts(id),
     product_id INTEGER REFERENCES products(id),
     quantity INTEGER
+);
+
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id),
+    username TEXT,
+    rating INTEGER,
+    content TEXT,
+    created_at TIMESTAMP
 );
