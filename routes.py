@@ -1,5 +1,5 @@
-from app import app
 from flask import redirect, render_template, request, session, abort
+from app import app
 import users
 import products
 import carts
@@ -18,9 +18,8 @@ def login():
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        else:
-            return render_template("login.html", error=True, username=username)
-        
+        return render_template("login.html", error=True, username=username)
+
 @app.route("/logout")
 def logout():
     users.logout()
@@ -35,25 +34,31 @@ def register():
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if len(username) < 3 or len(username) > 20:
-            return render_template("register.html", error="Käyttäjätunnuksen tulee olla 3 - 20 merkkiä pitkä.", username=username)
+            return render_template("register.html", \
+                                   error="Käyttäjätunnuksen tulee olla 3 - 20 merkkiä pitkä.", \
+                                    username=username)
         if len(password1) < 3 or len(password1) > 20:
-            return render_template("register.html", error="Salasanan tulee olla 3 - 20 merkkiä pitkä.", username=username)
+            return render_template("register.html", \
+                                   error="Salasanan tulee olla 3 - 20 merkkiä pitkä.", \
+                                   username=username)
         if password1 != password2:
-            return render_template("register.html", error="Salasanat eivät täsmää.", username=username)
+            return render_template("register.html", error="Salasanat eivät täsmää.", \
+                                   username=username)
         if users.register(username, password1):
             return redirect("/")
-        else:
-            return render_template("register.html", error="Rekisteröinti epäonnistui.", username=username)
-        
-@app.route("/product/<int:id>")
-def product(id):
-    product = products.product(id)
-    reviews = products.get_reviews(id)
+        return render_template("register.html", error="Rekisteröinti epäonnistui.", \
+                                   username=username)
+
+@app.route("/product/<int:product_id>")
+def product(product_id):
+    product = products.product(product_id)
+    reviews = products.get_reviews(product_id)
     if reviews:
         average_rating = round(sum(review[1] for review in reviews) / len(reviews), 1)
     else:
         average_rating = None
-    return render_template("product.html", id=id, product=product, reviews = reviews, average_rating = average_rating)
+    return render_template("product.html", id=product_id, product=product, \
+                           reviews = reviews, average_rating = average_rating)
 
 @app.route("/result", methods=["GET"])
 def result():
@@ -75,7 +80,7 @@ def new():
         file = request.files["file"]
         products.new(name, price, description, file)
         return redirect("/")
-    
+
 @app.route("/cart", methods=["GET", "POST"])
 def cart():
     if request.method == "GET":
@@ -87,7 +92,7 @@ def cart():
         amount = request.form["amount"]
         carts.add_to_cart(product_id, amount)
         return redirect("/cart")
-    
+
 @app.route("/review", methods=["POST"])
 def review():
     if session["csrf_token"] != request.form["csrf_token"]:

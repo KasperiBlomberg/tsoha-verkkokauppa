@@ -1,30 +1,29 @@
-from db import db
+import secrets
 from flask import session
 from sqlalchemy.sql import text
 from werkzeug.security import check_password_hash, generate_password_hash
-import secrets
+from db import db
 
 def login(username, password):
     sql = text("SELECT id, role, password FROM users WHERE username=:username")
     result = db.session.execute(sql, {"username":username})
-    user = result.fetchone()    
+    user = result.fetchone()
     if not user:
         return False
-    else:
-        hash_value = user.password
-        if check_password_hash(hash_value, password):
-            session["username"] = username
-            session["user_id"] = user[0]
-            session["user_role"] = user[1]
-            session["csrf_token"] = secrets.token_hex(16)
-            return True
-        else:
-            return False
+    hash_value = user.password
+    if check_password_hash(hash_value, password):
+        session["username"] = username
+        session["user_id"] = user[0]
+        session["user_role"] = user[1]
+        session["csrf_token"] = secrets.token_hex(16)
+        return True
+    return False
 
 def logout():
     del session["username"]
     del session["user_role"]
-    
+    del session["csrf_token"]
+
 def register(username, password):
     hash_value = generate_password_hash(password)
     try:

@@ -1,6 +1,6 @@
-from db import db
 from flask import session
 from sqlalchemy.sql import text
+from db import db
 
 def add_to_cart(product_id, amount):
     # If amount is 0, remove product from cart
@@ -29,12 +29,15 @@ def add_to_cart(product_id, amount):
     # If product is in cart, update amount
     if product:
         new_amount = product[0] + int(amount)
-        sql = text("UPDATE cart_items SET quantity=:new_amount WHERE cart_id=:cart_id AND product_id=:product_id")
-        db.session.execute(sql, {"new_amount":new_amount, "cart_id":cart_id[0], "product_id":product_id})
+        sql = text("""UPDATE cart_items SET quantity=:new_amount
+                   WHERE cart_id=:cart_id AND product_id=:product_id""")
+        db.session.execute(sql, {"new_amount":new_amount, "cart_id":cart_id[0], \
+                                  "product_id":product_id})
         db.session.commit()
     # If product is not in cart, add it
     else:
-        sql = text("INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (:cart_id, :product_id, :amount)")
+        sql = text("""INSERT INTO cart_items (cart_id, product_id, quantity)
+                   VALUES (:cart_id, :product_id, :amount)""")
         db.session.execute(sql, {"cart_id":cart_id[0], "product_id":product_id, "amount":amount})
         db.session.commit()
 
@@ -48,7 +51,7 @@ def get_cart():
     return cart
 
 def remove_from_cart(product_id):
-    sql = text("""DELETE FROM cart_items 
+    sql = text("""DELETE FROM cart_items
             WHERE cart_id=(SELECT id FROM carts WHERE user_id=:user_id)
             AND product_id=:product_id""")
     db.session.execute(sql, {"user_id":session["user_id"], "product_id":product_id})
