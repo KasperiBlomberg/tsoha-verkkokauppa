@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}{{name}}{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 {% block content %}
 <h1>{{ product.name }}</h1>
 <hr>
@@ -8,13 +8,17 @@
 </div>
 <p class="product-price"> {{ product.price }}€</p>
 <p>{{ product.description }}</p>
-<p>
-    <form action="/cart" method="POST">
-        <input type="hidden" name="product_id" value="{{id}}">
-        <input type="number" name="amount" value="1" min="1">
-        <button type="submit" class="btn btn-success">Lisää ostoskoriin</button>
-    </form>
-</p>
+{% if session.username %}
+    <p>
+        <form action="/cart" method="POST">
+            <input type="hidden" name="product_id" value="{{id}}">
+            <input type="number" name="amount" value="1" min="1">
+            <button type="submit" class="btn btn-success">Lisää ostoskoriin</button>
+        </form>
+    </p>
+{% else %}
+    <p>Kirjaudu sisään lisätäksesi tuotteita ostoskoriin.</p>
+{% endif %}
 <h3>Arvostelut</h3>
 {% if reviews|length == 0 %}
     <p>Tuotteella ei ole vielä arvosteluja.</p>
