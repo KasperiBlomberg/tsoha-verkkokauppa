@@ -105,3 +105,7 @@ def review():
     username = users.username()
     products.review(product_id, username, rating, content)
     return redirect("/product/"+product_id)
+
+@app.route("/order", methods=["POST"])
+def order():
+    return render_template("order.html")
