@@ -17,7 +17,7 @@ def product(product_id):
 
 def result():
     query = request.args["query"]
-    sql = text("SELECT id, name, price FROM products WHERE name LIKE :query")
+    sql = text("SELECT id, name, price FROM products WHERE name ILIKE :query")
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     results = result.fetchall()
     return results
