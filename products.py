@@ -60,7 +60,8 @@ def review(product_id, username, rating, content):
 def get_reviews(product_id):
     sql = text(
         """SELECT username, rating, content,
-               TO_CHAR(created_at, 'DD-MM-YYYY HH24:MI') as created_at
+               TO_CHAR(created_at, 'DD-MM-YYYY HH24:MI') AS created_at,
+               ROUND(AVG(rating) OVER (), 1) AS average_rating
                FROM reviews WHERE product_id=:product_id ORDER BY created_at DESC"""
     )
     result = db.session.execute(sql, {"product_id": product_id})

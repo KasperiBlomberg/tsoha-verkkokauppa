@@ -88,16 +88,13 @@ def register():
 def product(product_id):
     product = products.product(product_id)
     reviews = products.get_reviews(product_id)
-    if reviews:
-        average_rating = round(sum(review[1] for review in reviews) / len(reviews), 1)
-    else:
-        average_rating = None
+    average_rating = reviews[0][4] if reviews else None
     return render_template(
         "product.html",
         id=product_id,
         product=product,
         reviews=reviews,
-        average_rating=average_rating,
+        average_rating=average_rating
     )
 
 
@@ -128,7 +125,7 @@ def new():
 def cart():
     if request.method == "GET":
         cart = carts.get_cart()
-        total = round(cart[0][-1], 2) if cart else 0
+        total = cart[0][-1] if cart else 0
         return render_template("cart.html", cart=cart, total=total)
     if request.method == "POST":
         if session["csrf_token"] != request.form["csrf_token"]:

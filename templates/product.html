@@ -24,7 +24,7 @@
 {% if reviews|length == 0 %}
     <p>Tuotteella ei ole vielä arvosteluja.</p>
 {% else %}
-    <p>Keskiarvo: {{average_rating}}/5</p>
+    <p>Keskiarvo: {{ average_rating }}/5</p>
 {% endif %}
 {% for review in reviews %}
     <div class="card mt-3">
