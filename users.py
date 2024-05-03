@@ -23,6 +23,7 @@ def login(username, password):
 
 def logout():
     del session["username"]
+    del session["user_id"]
     del session["user_role"]
     del session["csrf_token"]
 

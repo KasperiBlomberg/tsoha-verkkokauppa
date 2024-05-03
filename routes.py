@@ -1,3 +1,4 @@
+import secrets
 from flask import redirect, render_template, request, session, abort
 from app import app
 import users
@@ -14,13 +15,23 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html", error=None, username="")
+        session["csrf_token"] = secrets.token_hex(16)
+        return render_template(
+            "login.html", error=None, username="", csrf_token=session["csrf_token"]
+        )
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         username = request.form["username"]
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        return render_template("login.html", error=True, username=username)
+        return render_template(
+            "login.html",
+            error=True,
+            username=username,
+            csrf_token=session["csrf_token"],
+        )
 
 
 @app.route("/logout")
@@ -32,8 +43,13 @@ def logout():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html", error=None, username="")
+        session["csrf_token"] = secrets.token_hex(16)
+        return render_template(
+            "register.html", error=None, username="", csrf_token=session["csrf_token"]
+        )
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
@@ -42,21 +58,29 @@ def register():
                 "register.html",
                 error="Käyttäjätunnuksen tulee olla 3 - 20 merkkiä pitkä.",
                 username=username,
+                csrf_token=session["csrf_token"],
             )
         if len(password1) < 3 or len(password1) > 20:
             return render_template(
                 "register.html",
                 error="Salasanan tulee olla 3 - 20 merkkiä pitkä.",
                 username=username,
+                csrf_token=session["csrf_token"],
             )
         if password1 != password2:
             return render_template(
-                "register.html", error="Salasanat eivät täsmää.", username=username
+                "register.html",
+                error="Salasanat eivät täsmää.",
+                username=username,
+                csrf_token=session["csrf_token"],
             )
         if users.register(username, password1):
             return redirect("/")
         return render_template(
-            "register.html", error="Rekisteröinti epäonnistui. Valitsemasi käyttäjätunnus on jo käytössä.", username=username
+            "register.html",
+            error="Rekisteröinti epäonnistui. Valitsemasi käyttäjätunnus on jo käytössä.",
+            username=username,
+            csrf_token=session["csrf_token"],
         )
 
 
@@ -107,6 +131,8 @@ def cart():
         total = round(cart[0][-1], 2) if cart else 0
         return render_template("cart.html", cart=cart, total=total)
     if request.method == "POST":
+        if session["csrf_token"] != request.form["csrf_token"]:
+            abort(403)
         product_id = request.form["product_id"]
         amount = request.form["amount"]
         if int(amount) > 10:

@@ -11,6 +11,7 @@
 {% if session.username %}
     <p>
         <form action="/cart" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             <input type="hidden" name="product_id" value="{{id}}">
             <input type="number" name="amount" value="1" min="1">
             <button type="submit" class="btn btn-success">Lisää ostoskoriin</button>
