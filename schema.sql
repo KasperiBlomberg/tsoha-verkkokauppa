@@ -12,11 +12,6 @@ CREATE TABLE products (
     price NUMERIC
 );
 
-CREATE TABLE genres (
-    id SERIAL PRIMARY KEY,
-    name TEXT UNIQUE
-);
-
 CREATE TABLE carts (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id)
