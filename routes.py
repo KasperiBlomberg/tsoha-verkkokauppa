@@ -56,7 +56,7 @@ def register():
         if users.register(username, password1):
             return redirect("/")
         return render_template(
-            "register.html", error="Rekisteröinti epäonnistui.", username=username
+            "register.html", error="Rekisteröinti epäonnistui. Valitsemasi käyttäjätunnus on jo käytössä.", username=username
         )
 
 
@@ -109,6 +109,8 @@ def cart():
     if request.method == "POST":
         product_id = request.form["product_id"]
         amount = request.form["amount"]
+        if int(amount) > 10:
+            amount = 10
         carts.add_to_cart(product_id, amount)
         return redirect("/cart")
 
