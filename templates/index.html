@@ -6,11 +6,11 @@
 <div class="container">
     <div class="row">
     {% for product in products %}
-        <div class="col-md-4">
-            <a href="/product/{{ product.id }}" class="product-name">{{ product.name }}</a> 
+        <div class="col-md-4"> 
             <div> 
                 <a href="/product/{{ product.id }}"><img class="img-fluid my-image" src="/static/images/{{ product.id }}.jpg"></a>
             </div>
+            <a href="/product/{{ product.id }}" class="product-name">{{ product.name }}</a>
             <p class="product-price">{{ product.price }}€</p>
             <hr>
         </div>
